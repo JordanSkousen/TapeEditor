@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["extract", "Example MKV.mkv", "00:01", "test_find/test3.jpg"]
+      //"args": ["find", "", "edit", "/example video dir"]
+    }
+  ]
+}
