@@ -8,8 +8,8 @@
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "args": ["extract", "Example MKV.mkv", "00:01", "test_find/test3.jpg"]
-      //"args": ["find", "", "edit", "/example video dir"]
+      //"args": ["extract", "Example MKV.mkv", "00:01", "test_find/test3.jpg"]
+      "args": ["edit", "D:\\Digitization\\Anderson Tapes\\to_edit", "--find", "test_find", "--output", "D:\\Digitization\\Anderson Tapes\\edited", "--remux"]
     }
   ]
 }
