@@ -8,8 +8,9 @@
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": true,
-      //"args": ["extract", "Example MKV.mkv", "00:01", "test_find/test3.jpg"]
-      "args": ["edit", "D:\\Digitization\\Anderson Tapes\\to_edit", "--find", "test_find", "--output", "D:\\Digitization\\Anderson Tapes\\edited", "--remux"]
+      //"args": ["extract", "D:\\Anderson Tapes to edit\\Video #1.mkv", "04:19:56.083", "test_find/test16.jpg"]
+      "args": ["edit", "K:\\Anderson Tapes", "--find", "test_find", "--output", "K:\\Anderson Tapes\\edited", "--remux"]
+      //"args": ["mark", "D:\\Anderson Tapes to edit\\help", "--find", "test_find"]
     }
   ]
 }
