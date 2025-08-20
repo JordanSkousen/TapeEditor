@@ -3,16 +3,16 @@
 Trims the start & ends of videos of digitized tapes (VHS, Hi8, miniDV, etc.)
 
 Usage:
-  tape_editor.py edit <dir_or_video_file> --find=<dir_or_image_file> --output=<dir_or_video_file> [--remux]
-  tape_editor.py mark <dir_or_video_file> --find=<dir_or_image_file>
-  tape_editor.py extract <video_file> <timestamp> <output_image>
-  tape_editor.py -h | --help
+  main.py edit <dir_or_video_file> --find=<dir_or_image_file> --output=<dir_or_video_file> [--encode-mp4]
+  main.py mark <dir_or_video_file> --find=<dir_or_image_file>
+  main.py extract <video_file> <timestamp> <output_image>
+  main.py -h | --help
 
 Options:
   -h, --help                Show this screen
   --find DIR/FILE           The image file/directory of image files of example frames to skip (for example, the blue screen before the tape begins). To extract these example frames, use the extract command. Accepted extensions are *.jpg, *.jpeg, *.png, *.bmp.
   --output DIR/FILE         If a single video file is being edited, this is the video file to output to. Otherwise, this is the directory where the edited video files will be output to.
-  --remux                   Remux the file to MP4 when editing it.
+  --encode-mp4              Encodes the file to MP4 when editing it.
 
 """
 import os
@@ -88,17 +88,17 @@ def get_edit_point(find_hashes, video, find_start):
         end = max(0, end)
       step = step // 2
 
-def trim_video(video, out_file, start_frame, end_frame, remux):
+def trim_video(video, out_file, start_frame, end_frame, encode_mp4):
   start = frame_to_timestamp(start_frame, video.fps)
   end = frame_to_timestamp(end_frame, video.fps)
   print("Trimming video \"{}\" from timestamps {} to {} and saving to \"{}\"...".format(video.file, start, end, out_file))
   args = ["ffmpeg", "-y", "-ss", start, "-i", video.file, "-to", end, "-filter:v", "fps=30"]
-  if not remux:
+  if encode_mp4:
     args.extend(["-c", "copy"])
   args.append(out_file)
   subprocess.call(args)
 
-def edit(find_dir, edit_dir, out_dir, remux=False):
+def edit(find_dir, edit_dir, out_dir, encode_mp4=False):
   find_files = [find_dir] if os.path.isfile(find_dir) else get_files(find_dir, [".jpg", ".jpeg", ".png", ".bmp"])
   editing_single_file = os.path.isfile(edit_dir)
   edit_files = [edit_dir] if editing_single_file else get_files(edit_dir, [".mkv", ".mp4", ".m4v", ".mov"])
@@ -122,11 +122,11 @@ def edit(find_dir, edit_dir, out_dir, remux=False):
     if start == end:
       raise Exception("The found start and end frames of video \"{}\" are equal! ({} = {})".format(video.file, start, end))
     fname = os.path.split(video.file)[1]
-    fname = fname.replace(".mkv", ".mp4") if remux else fname
+    fname = fname.replace(".mkv", ".mp4") if encode_mp4 else fname
     if in_marking_mode:
       marks[fname] = {"start": start, "end": end, "video": video}
     else:
-      trim_video(video, fname if editing_single_file else os.path.join(out_dir, fname), start, end, remux)
+      trim_video(video, fname if editing_single_file else os.path.join(out_dir, fname), start, end, encode_mp4)
       print("Successfully edited \"{}\".".format(video.file))
   if in_marking_mode:
     print("===========MARKS SUMMARY===========")
@@ -141,7 +141,7 @@ if __name__ == '__main__':
     if args['extract']:
       extract(args['<video_file>'], args['<timestamp>'], args['<output_image>'])
     if args['edit']:
-      edit(args['--find'], args['<dir_or_video_file>'], args['--output'], args['--remux'])
+      edit(args['--find'], args['<dir_or_video_file>'], args['--output'], args['--encode-mp4'])
     if args['mark']:
       edit(args['--find'], args['<dir_or_video_file>'], None)
   except docopt.DocoptExit:
