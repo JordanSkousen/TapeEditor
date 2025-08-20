@@ -22,7 +22,6 @@ import warnings
 import docopt
 from PIL import Image
 import imagehash
-import shutil
 
 from video import Video
 from utils import get_files, frame_to_timestamp
@@ -129,7 +128,6 @@ def edit(find_dir, edit_dir, out_dir, remux=False):
     else:
       trim_video(video, fname if editing_single_file else os.path.join(out_dir, fname), start, end, remux)
       print("Successfully edited \"{}\".".format(video.file))
-      shutil.copyfile(os.path.join(out_dir, fname), os.path.join("K:\\Anderson Tapes\\help", fname))
   if in_marking_mode:
     print("===========MARKS SUMMARY===========")
     for fname in marks.keys():

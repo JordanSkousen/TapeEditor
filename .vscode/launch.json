@@ -3,14 +3,11 @@
   "configurations": [
     {
       "name": "Python: Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": true,
-      //"args": ["extract", "D:\\Anderson Tapes to edit\\Video #1.mkv", "04:19:56.083", "test_find/test16.jpg"]
-      "args": ["edit", "K:\\Anderson Tapes", "--find", "test_find", "--output", "K:\\Anderson Tapes\\edited", "--remux"]
-      //"args": ["mark", "D:\\Anderson Tapes to edit\\help", "--find", "test_find"]
     }
   ]
 }
