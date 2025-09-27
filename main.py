@@ -93,7 +93,7 @@ def trim_video(video, out_file, start_frame, end_frame, encode_mp4):
   end = frame_to_timestamp(end_frame, video.fps)
   print("Trimming video \"{}\" from timestamps {} to {} and saving to \"{}\"...".format(video.file, start, end, out_file))
   args = ["ffmpeg", "-y", "-ss", start, "-i", video.file, "-to", end]
-  if encode_mp4:
+  if not encode_mp4:
     args.extend(["-c", "copy"])
   args.append(out_file)
   subprocess.call(args)
